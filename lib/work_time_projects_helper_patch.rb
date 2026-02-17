@@ -1,5 +1,3 @@
-require_dependency 'projects_helper'
-
 module WorkTimeProjectsHelperPatch
   module ProjectsHelperPatch
     def project_settings_tabs
@@ -13,5 +11,3 @@ module WorkTimeProjectsHelperPatch
     end
   end
 end
-
-ProjectsHelper.prepend WorkTimeProjectsHelperPatch::ProjectsHelperPatch

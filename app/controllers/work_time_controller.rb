@@ -90,7 +90,7 @@ class WorkTimeController < ApplicationController
     prepare_values
     make_pack
 
-    csv_data = %Q|""|
+    csv_data = %Q|""|,
     (@first_date..@last_date).each do |date|
       csv_data << %Q|,"#{date}"|
     end
@@ -363,7 +363,7 @@ class WorkTimeController < ApplicationController
 
   def ajax_relay
     if !params.key?(:issue_id)
-      render :layout=>false, :text=>'ERROR: no issue_id'
+      render layout: false, plain: 'ERROR: no issue_id'
       return
     end
     @issue_id = params[:issue_id].to_i
@@ -1322,8 +1322,8 @@ private
     next_date = @this_date+1
     t1 = Time.local(@this_date.year, @this_date.month, @this_date.day)
     t2 = Time.local(next_date.year, next_date.month, next_date.day)
-    issues = Issue.where(["(author_id = :u and created_on >= :t1 and created_on < :t2) or "+
-                              "id in (select journalized_id from journals where journalized_type = 'Issue' and "+
+    issues = Issue.where(["(author_id = :u and created_on >= :t1 and created_on < :t2) or " +
+                              "id in (select journalized_id from journals where journalized_type = 'Issue' and " +
                               "user_id = :u and created_on >= :t1 and created_on < :t2 group by journalized_id)",
                           {:u => @this_user, :t1 => t1, :t2 => t2}]).all
 

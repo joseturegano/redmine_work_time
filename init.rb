@@ -4,8 +4,8 @@ Redmine::Plugin.register :redmine_work_time do
   name 'Redmine Work Time plugin'
   author 'Tomohisa Kusukawa'
   description 'A plugin to view and update TimeEntry by each user'
-  version '0.4.3'
-  url 'http://www.redmine.org/plugins/redmine_work_time'
+  version '0.4.3-panel'
+  url 'https://github.com/joseturegano/redmine_work_time'
   author_url 'http://about.me/tkusukawa'
 
   project_module :work_time do
@@ -39,9 +39,8 @@ Redmine::Plugin.register :redmine_work_time do
            :partial => 'settings/work_time_settings'
 
   Rails.configuration.to_prepare do
-    require_dependency 'projects_helper'
-    unless ProjectsHelper.included_modules.include? WorkTimeProjectsHelperPatch
-      ProjectsHelper.send(:include, WorkTimeProjectsHelperPatch)
+    unless ProjectsHelper.ancestors.include?(WorkTimeProjectsHelperPatch::ProjectsHelperPatch)
+      ProjectsHelper.prepend WorkTimeProjectsHelperPatch::ProjectsHelperPatch
     end
   end
 end
